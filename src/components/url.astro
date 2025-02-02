@@ -1,0 +1,7 @@
+---
+const { url } = Astro.props;
+---
+
+<div class="url">
+  <a href={`/${url.shortUrl}`}>{url.nameUrl}</a>
+</div>
