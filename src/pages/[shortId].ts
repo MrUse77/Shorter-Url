@@ -16,7 +16,6 @@ export const GET: APIRoute = async ({ params, redirect }) => {
         url = "https://" + url;
       }
 
-      console.log(url);
       return redirect(url);
     } else {
       return new Response("Not found", { status: 404 });

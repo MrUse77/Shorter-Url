@@ -40,8 +40,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 export const GET: APIRoute = async ({ params, redirect }) => {
   await connectDB();
-  const { shortId } = params;
-  console.log({ shortId });
+
   try {
     const response = await shortenerURL.find();
     return new Response(JSON.stringify(response), { headers });
