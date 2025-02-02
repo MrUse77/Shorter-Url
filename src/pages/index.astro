@@ -1,9 +1,8 @@
 ---
 import Url from "../components/url.astro";
-import { API_FETCH_GET } from "astro:env/server";
+
 import Layout from "../layouts/Layout.astro";
 
-const apiFetch = API_FETCH_GET;
 export const prerender = true;
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -22,7 +21,9 @@ export const prerender = true;
       <input type="text" name="key" />
       <button type="submit">Shorten</button>
     </form>
-    <Url server:defer />
+    <Url server:defer>
+      <span slot="fallback">loading</span>
+    </Url>
   </div>
 </Layout>
 <style is:global>
@@ -76,8 +77,9 @@ export const prerender = true;
   }
 </style>
 <script>
-  const api = import.meta.env.API_FETCH_GET;
-
+  import { API_FETCH_GET } from "astro:env/client";
+  const api = API_FETCH_GET;
+  console.log(api);
   const form = document.querySelector("form");
   if (form) {
     form.addEventListener("submit", async (e) => {

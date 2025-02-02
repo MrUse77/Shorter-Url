@@ -8,6 +8,11 @@ const shortenerSchema = new mongoose.Schema({
   shortUrl: { type: String, required: true, unique: true },
 });
 
+const headers = {
+  "Access-Control-Allow-Origin": "*", // O especifica el origen: 'http://localhost:3000'
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 export const shortenerURL =
   mongoose.models.shortener || mongoose.model("shortener", shortenerSchema);
 
@@ -39,7 +44,7 @@ export const GET: APIRoute = async ({ params, redirect }) => {
   console.log({ shortId });
   try {
     const response = await shortenerURL.find();
-    return new Response(JSON.stringify(response));
+    return new Response(JSON.stringify(response), { headers });
   } catch (err) {
     console.log(err);
     return new Response(null, { status: 500 });

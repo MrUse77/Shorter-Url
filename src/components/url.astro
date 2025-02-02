@@ -1,16 +1,9 @@
 ---
-import { API_FETCH_GET } from "astro:env/server";
-const fetchShort = async (url: string) => {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data;
-  } catch (e) {
-    console.log(e);
-  }
-};
+import { API_FETCH_GET } from "astro:env/client";
 
-const urls = await fetchShort(API_FETCH_GET);
+const res = await fetch(API_FETCH_GET);
+const urls = await res.json();
+
 console.log(urls);
 ---
 
