@@ -75,6 +75,8 @@ export const prerender = true;
   }
 </style>
 <script>
+  import { API_FETCH_GET } from "astro:env/server";
+
   const form = document.querySelector("form");
   if (form) {
     form.addEventListener("submit", async (e) => {
@@ -88,7 +90,7 @@ export const prerender = true;
       const key = (
         document.querySelector('input[name="key"]') as HTMLInputElement
       )?.value;
-      const res = await fetch(import.meta.env.SITE + "/api/shortener", {
+      const res = await fetch(API_FETCH_GET, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
