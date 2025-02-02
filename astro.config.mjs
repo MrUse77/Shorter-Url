@@ -12,9 +12,13 @@ export default defineConfig({
   //.env
   env: {
     schema: {
-      KEY: envField.string({
+      API_KEY: envField.string({
         context: "server",
         access: "secret",
+      }),
+      API_FETCH_GET: envField.string({
+        context: "server",
+        access: "public",
       }),
     },
   },
