@@ -1,16 +1,8 @@
 ---
 import Url from "../components/url.astro";
-import { API_FETCH_GET } from "astro:env/server";
+
 import Layout from "../layouts/Layout.astro";
 
-const fetchShort = async () => {
-  const res = await fetch(API_FETCH_GET);
-  const data = await res.json();
-  return data;
-};
-
-const urls = await fetchShort();
-console.log(urls);
 export const prerender = true;
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -29,7 +21,7 @@ export const prerender = true;
       <input type="text" name="key" />
       <button type="submit">Shorten</button>
     </form>
-    {urls.map((url: any) => <Url server:defer url={url} />)}
+    <Url server:defer />
   </div>
 </Layout>
 <style is:global>

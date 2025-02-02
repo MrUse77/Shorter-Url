@@ -1,7 +1,23 @@
 ---
-const { url } = Astro.props;
+import { API_FETCH_GET } from "astro:env/server";
+const fetchShort = async (url: string) => {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const urls = await fetchShort(API_FETCH_GET);
+console.log(urls);
 ---
 
-<div class="url">
-  <a href={`/${url.shortUrl}`}>{url.nameUrl}</a>
-</div>
+{
+  urls?.map((url: any) => (
+    <div class="url">
+      <a href={`/${url.shortUrl}`}>{url.nameUrl}</a>
+    </div>
+  ))
+}
