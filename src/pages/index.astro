@@ -1,11 +1,122 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
 
+const fetchShort = async () => {
+  const res = await fetch(import.meta.env.SITE + "/api/shortener");
+  const data = await res.json();
+  return data;
+};
+
+const urls = await fetchShort();
+console.log(urls);
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <div class="container">
+    <h1>URL Shortener</h1>
+    <p>Enter a URL to shorten</p>
+    <form action="post">
+      <label for="nameUrl">Name Url</label>
+      <input type="text" name="nameUrl" />
+      <label for="url">URL</label>
+      <input type="text" name="url" />
+      <label for="url">Code Auth</label>
+      <input type="text" name="key" />
+      <button type="submit">Shorten</button>
+    </form>
+    {
+      urls.map((url: any) => (
+        <div class="url">
+          <a href={`/${url.shortUrl}`}>{url.nameUrl}</a>
+        </div>
+      ))
+    }
+  </div>
 </Layout>
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70vw;
+    margin: auto;
+    color: white;
+    padding: 2rem;
+  }
+  .url {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+
+    background-color: rgb(19, 20, 100);
+    border-radius: 0.5rem;
+    margin: 0.5rem;
+    a {
+      width: 100%;
+      padding: 1rem;
+      color: white;
+      &:hover {
+        background-color: rgb(19, 20, 150);
+        border-radius: 0.5rem;
+      }
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 50%;
+    margin-bottom: 3rem;
+    input,
+    button {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      background-color: rgb(19, 20, 100);
+      color: white;
+    }
+    button {
+      &:hover {
+        background-color: rgb(19, 20, 150);
+        cursor: pointer;
+      }
+    }
+  }
+</style>
+<script>
+  const form = document.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nameUrl = (
+        document.querySelector('input[name="nameUrl"]') as HTMLInputElement
+      )?.value;
+      const url = (
+        document.querySelector('input[name="url"]') as HTMLInputElement
+      )?.value;
+      const key = (
+        document.querySelector('input[name="key"]') as HTMLInputElement
+      )?.value;
+      const res = await fetch(import.meta.env.SITE + "/api/shortener", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nameUrl, url, key }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data) {
+        if (data.error) {
+          alert("Invalid Key");
+        } else {
+          location.reload();
+        }
+      }
+      console.log(data);
+    });
+  }
+</script>
