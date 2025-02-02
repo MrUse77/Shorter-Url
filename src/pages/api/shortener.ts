@@ -19,9 +19,10 @@ export const shortenerURL =
 export const POST: APIRoute = async ({ request }) => {
   await connectDB();
   try {
+    const key = import.meta.env.API_KEY;
     const body = await request.json();
-    console.log(import.meta.env.KEY, body.key);
-    if (import.meta.env.KEY !== body.key) {
+    console.log(key, body.key);
+    if (key !== body.key) {
       return new Response(JSON.stringify({ error: "Invalid key" }), {
         status: 401,
       });
