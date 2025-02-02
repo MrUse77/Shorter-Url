@@ -8,7 +8,6 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  site: "http://localhost:4321",
 
   //.env
   env: {
