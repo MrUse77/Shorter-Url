@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const MONGO_URL =
-  "mongodb+srv://MrUse:1120712@cluster0.sly6r5g.mongodb.net/ejemplos?retryWrites=true&w=majority";
+  import.meta.env.MONGO_URI || "mongodb://localhost:27017/shortener"; // Cambia la URL de conexión según tu configuración
 
 export async function connectDB() {
   if (mongoose.connection.readyState === 1) return mongoose.connection; // Evita conexiones duplicadas
