@@ -11,7 +11,8 @@ export const GET: APIRoute = async ({ params, redirect }) => {
       if (response) {
         if (
           !response.url.startsWith("http") ||
-          !response.url.startsWith("https")
+          !response.url.startsWith("https") && 
+          !response.url.startsWith("mailto")
         ) {
           url = "https://" + url;
         }
